@@ -11,9 +11,17 @@ module.exports = async ({
     const { deployer } = await getNamedAccounts();
     const chainId = await getChainId();
 
-    const NFUSE = await deploy("nfuse", {
+    /*
+    const NFUSECOLLECTION = await deploy("NfuseCollection", {
+        from: deployer,
+        log: true
+    });*/
+
+
+
+    const NFUSEFACTORY = await deploy("NfuseFactory", {
         from: deployer,
         log: true,
-        args: ["nfuse", "NFSE", "0x4EE7201DaD75B24DA5bB6A4483c15cb12C806252"]
+        args: [0, "0x3a7f4Cb1b2424C5Fd3217ab8aedF383952DF5fB5"]
     });
 };

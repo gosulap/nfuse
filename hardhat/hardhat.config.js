@@ -1,7 +1,5 @@
-require("hardhat-deploy");
 require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-etherscan");
+require("hardhat-deploy");
 require("dotenv").config();
 
 // This is a sample Hardhat task. To learn how to create your own go to

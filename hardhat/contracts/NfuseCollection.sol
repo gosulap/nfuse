@@ -3,35 +3,37 @@
  */
 
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.4;
 
-import "base64-sol/base64.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {Base64} from "base64-sol/base64.sol";
+import {ERC721URIStorageUpgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract nfuse is ERC721URIStorage, Ownable {
+contract NfuseCollection is ERC721URIStorageUpgradeable, OwnableUpgradeable {
     uint256 tokenCount;
     uint256 mintPrice;
     address payable reciever;
 
-    constructor(
-        string memory _name,
-        string memory _symbol,
-        address payable _fundsReciever
-    ) ERC721(_name, _symbol) {
-        tokenCount = 0;
-        mintPrice = 100000000000000;
-        reciever = _fundsReciever;
+    constructor() {}
+
+    function withdraw() public {
+        payable(owner()).transfer(address(this).balance);
     }
 
-    function withdraw() public onlyOwner {
-        reciever.transfer(address(this).balance);
+    function initialize(
+        string memory _name,
+        string memory _symbol,
+        uint256 _mintPrice
+    ) public initializer {
+        __ERC721_init(_name, _symbol);
+        mintPrice = _mintPrice;
     }
 
     function mint(
         string memory _svg,
         string memory _name,
-        string memory _description
+        string memory _description,
+        string memory _external_uri
     ) public payable {
         require(msg.sender != address(0), "Cannot mint to the zero address");
         require(
@@ -40,13 +42,13 @@ contract nfuse is ERC721URIStorage, Ownable {
         );
         _safeMint(msg.sender, tokenCount);
         string memory imageUri = svgToImageUri(_svg);
-        string memory anotherUri = createTokenUri(
+        string memory tokenUri = createTokenUri(
             imageUri,
-            "",
+            _external_uri,
             _name,
             _description
         );
-        _setTokenURI(tokenCount, anotherUri);
+        _setTokenURI(tokenCount, tokenUri);
         tokenCount += 1;
     }
 
