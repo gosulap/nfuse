@@ -45,6 +45,7 @@ export const checkLoggedInStatus = async () => {
         console.log("in else")
         web3 = new Web3(window.ethereum);
         web3.eth.defaultAccount = (await web3.eth.getAccounts())[0];
+        return web3.eth.defaultAccount;
     }
 }
 
