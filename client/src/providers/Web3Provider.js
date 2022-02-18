@@ -49,11 +49,12 @@ export const checkLoggedInStatus = async () => {
     }
 }
 
-export const createCollection = async (name, symbol, mintPrice) => {
+export const createCollectionContract = async (name, symbol, mintPrice) => {
     if (web3) {
-        console.log(web3.eth.defaultAccount, name, symbol, mintPrice, parseInt(mintPrice))
+        let mintPriceEth = web3.utils.toWei(mintPrice, 'ether');
+        console.log(web3.eth.defaultAccount, name, symbol, mintPrice, mintPriceEth);
         let contract = new web3.eth.Contract(nfusefactoryContractDetails.abi, nfusefactoryContractDetails.address);
-        let res = await contract.methods.createCollection(name, symbol, parseInt(mintPrice)).send({ from: web3.eth.defaultAccount, value: 0 });;
+        let res = await contract.methods.createCollection(name, symbol, mintPriceEth).send({ from: web3.eth.defaultAccount, value: 0 });;
         console.log(res);
     } else {
         alert("Looks like you're not logged in :( Please log in with MetaMask")

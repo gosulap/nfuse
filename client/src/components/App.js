@@ -8,12 +8,16 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import HiveIcon from '@mui/icons-material/Hive';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import MintForm from './MintForm';
 import HowItWorks from './HowItWorks';
 
 import { checkLoggedInStatus, loginWithMetaMask } from "../providers/Web3Provider";
+
+import MetaMaskLogo from "../images/metamask.svg";
 
 const theme = createTheme({
   palette: {
@@ -28,7 +32,7 @@ const theme = createTheme({
       main: '#2196f3',
     },
     metamask: {
-      main: '#ffa500'
+      main: '#fbab60'
     },
   },
 });
@@ -75,39 +79,43 @@ function App() {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
+          <HiveIcon />
           <Typography variant="h6" color="inherit" noWrap>
-            nfuse - Logo
+            nfuse
           </Typography>
         </Toolbar>
       </AppBar>
       <main>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 6,
-          }}
-        >
-          <Container maxWidth="lg">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              Own the contracts that create them
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Mint your NFT contract and use it to power your collections
-            </Typography>
-            <ButtonStack address={address} creating={creating} flipBool={setCreating} />
-          </Container>
-        </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        {address &&
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              pt: 8,
+              pb: 6,
+            }}
+          >
+            <Container maxWidth="lg">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="text.primary"
+                gutterBottom
+              >
+                Own your NFT contracts
+              </Typography>
+              <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                Generate a new smart contract that enables minting fully on-chain NFTS
+              </Typography>
+              <ButtonStack address={address} creating={creating} flipBool={setCreating} />
+            </Container>
+          </Box>
+        }
+        <Container sx={{ py: 8 }} maxWidth="md" align="center">
           {address && creating && <MintForm />}
           {address && !creating && <HowItWorks />}
-          {!address && <Button id="hiw-button" variant="contained" onClick={async () => setAddress(await loginWithMetaMask())} fullWidth>Login with Metamask</Button>}
+          {!address && <img src={MetaMaskLogo} onClick={async () => setAddress(await loginWithMetaMask())} style={{ width: "40%", cursor: "pointer" }} />}
+          {/* Button id="hiw-button" variant="contained" color="metamask" onClick={async () => setAddress(await loginWithMetaMask())} fullWidth>Connect with Metamask</Button >*/}
         </Container>
       </main>
       <Box
@@ -131,7 +139,7 @@ function App() {
           <Typography variant="body2" color="white" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://google.com">
-              Nfuse
+              nfuse
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
