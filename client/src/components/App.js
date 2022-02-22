@@ -52,7 +52,7 @@ function ButtonStack(props) {
     )
   }
   else {
-    return <div></div>
+    return <></>
   }
 }
 
@@ -105,7 +105,7 @@ function App() {
                 Own your NFT contracts
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Generate a new smart contract that enables minting fully on-chain NFTS
+                Generate a new smart contract that enables minting fully on-chain NFTs
               </Typography>
               <ButtonStack address={address} creating={creating} flipBool={setCreating} />
             </Container>
