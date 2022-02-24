@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
-import Button from '@mui/material/Button';
+import { useState } from "react";
+import { createCollectionContract, getEvents } from "../providers/Web3Provider";
+
 import LoadingButton from '@mui/lab/LoadingButton';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { createCollectionContract } from "../providers/Web3Provider";
+
 
 async function mintContract(setLoading) {
     try {
         let collectionName = document.getElementById("name-input").value;
         let collectionSymbol = document.getElementById("symbol-input").value;
         let collectionMintPrice = document.getElementById("price-input").value;
-
         setLoading(true);
-        console.log("setting")
-        // set loading circle here and clear inputs
-        let res = await createCollectionContract(collectionName, collectionSymbol, collectionMintPrice);
 
-        console.log(res);
+        let tx = await createCollectionContract(collectionName, collectionSymbol, collectionMintPrice);
+        let lastEvent = await getEvents();
+
+        console.log(tx);
+        window.open("https://rinkeby.etherscan.io/address/" + lastEvent.returnValues["0"])
     }
     catch (e) {
+        console.log(e);
         alert("broke")
     }
     finally {

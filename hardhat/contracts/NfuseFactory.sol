@@ -33,7 +33,7 @@ contract NfuseFactory is Ownable {
         string memory _name,
         string memory _symbol,
         uint256 _mintPrice
-    ) public payable returns (address) {
+    ) public payable {
         require(
             msg.sender != address(0),
             "Cannot create collection for the zero address"
@@ -50,6 +50,5 @@ contract NfuseFactory is Ownable {
         NfuseCollection(freshCollection).initialize(_name, _symbol, _mintPrice);
 
         emit CollectionCreation(freshCollection, _name, _symbol);
-        return freshCollection;
     }
 }

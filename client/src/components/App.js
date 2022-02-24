@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { checkLoggedInStatus, loginWithMetaMask } from "../providers/Web3Provider";
+
+import MintForm from './MintForm';
+import HowItWorks from './HowItWorks';
+import MetaMaskLogo from "../images/metamask.svg";
+
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,16 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
 import HiveIcon from '@mui/icons-material/Hive';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import MintForm from './MintForm';
-import HowItWorks from './HowItWorks';
-
-import { checkLoggedInStatus, loginWithMetaMask } from "../providers/Web3Provider";
-
-import MetaMaskLogo from "../images/metamask.svg";
 
 const theme = createTheme({
   palette: {
@@ -115,7 +113,6 @@ function App() {
           {address && creating && <MintForm />}
           {address && !creating && <HowItWorks />}
           {!address && <img src={MetaMaskLogo} onClick={async () => setAddress(await loginWithMetaMask())} style={{ width: "40%", cursor: "pointer" }} />}
-          {/* Button id="hiw-button" variant="contained" color="metamask" onClick={async () => setAddress(await loginWithMetaMask())} fullWidth>Connect with Metamask</Button >*/}
         </Container>
       </main>
       <Box
@@ -138,7 +135,7 @@ function App() {
         <Container maxWidth="sm">
           <Typography variant="body2" color="white" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://google.com">
+            <Link color="inherit" href="https://github.com/gosulap/nfuse">
               nfuse
             </Link>{' '}
             {new Date().getFullYear()}
